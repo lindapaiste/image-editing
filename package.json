@@ -1,0 +1,15 @@
+{
+  "name": "@lindapaiste/react-image-editing",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "react-native": "^0.63.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.46",
+    "@types/react-native": "^0.63.6"
+  },
+  "repository": {
+    "url": ""
+  }
+}
