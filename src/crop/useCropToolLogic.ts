@@ -1,7 +1,6 @@
 import {Settings, ToolLogicProps, ToolLogicReturns} from "./types";
 import {useMemo, useState} from "react";
-import ImmutableRectangle from "../../../../shs-react-redux-app/src/util/geometry/rectangle/ImmutableRectangle";
-import {BoundedRectangle} from "../../../../shs-react-redux-app/src/util/geometry/rectangle/BoundedRectangle";
+import {BoundedRectangle, Rectangle} from "@lindapaiste/geometry";
 import {useControlledRectangle} from "./useControlledRectangle";
 
 export const defaultSettings: Settings = {
@@ -24,7 +23,7 @@ export const useCropToolLogic = ({initialAspectRatio, initialSettings, image}: T
 
     const [isPreview, setIsPreview] = useState(false);
 
-    const boundaries = useMemo(() => new ImmutableRectangle({
+    const boundaries = useMemo(() => new Rectangle({
         ...image,
         x: 0,
         y: 0,

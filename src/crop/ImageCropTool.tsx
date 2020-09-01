@@ -1,13 +1,11 @@
-import Button from "../../../../shs-react-redux-app/src/components/ui/Button.web";
 import React from "react";
 import {useCropToolLogic} from "./useCropToolLogic";
 import {useKeyboardControls} from "./useKeyboardControls";
 import {useMouseControls} from "./useMouseControls";
 import {ToolLogicProps} from "./types";
-import Image from "../../../../shs-react-redux-app/src/components/images/Image";
-import {CroppedImage} from "../../../../shs-react-redux-app/src/components/images/CroppedImage";
+import {CroppedImage, Image} from "../../../images/src";
 import BoundingBox from "./BoundingBox";
-import ImmutableRectangle from "../../../../shs-react-redux-app/src/util/geometry/rectangle/ImmutableRectangle";
+import {Rectangle} from "@lindapaiste/geometry";
 
 /**
  * unsophisticated web rendering
@@ -24,7 +22,7 @@ export const ImageCropTool = (props: ToolLogicProps) => {
 
     const {rectangle, toggleFixedRatio, togglePreview, onPressSave, isPreview, fixedRatio, isDragging} = everything;
 
-    const rectObj = new ImmutableRectangle(rectangle);
+    const rectObj = new Rectangle(rectangle);
 
     const points = [...rectObj.midpoints, ...rectObj.corners];
 
@@ -40,9 +38,9 @@ export const ImageCropTool = (props: ToolLogicProps) => {
             }}
         >
             <div className="cropped-image-controls">
-                <Button onPress={toggleFixedRatio}>{fixedRatio ? "Unlock" : "Lock"}</Button>
-                <Button onPress={togglePreview}>Preview</Button>
-                <Button onPress={onPressSave}>Save</Button>
+                <button onClick={toggleFixedRatio}>{fixedRatio ? "Unlock" : "Lock"}</button>
+                <button onClick={togglePreview}>Preview</button>
+                <button onClick={onPressSave}>Save</button>
             </div>
             {isPreview &&
             <div className="cropped-image-preview">

@@ -1,5 +1,5 @@
 import React from "react";
-import Rectangle from "../../../../shs-react-redux-app/src/util/geometry/rectangle/ImmutableRectangle";
+import {Rectangle} from "@lindapaiste/geometry";
 import {BoundingBox} from "./BoundingBox.web";
 
 /**

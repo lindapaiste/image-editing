@@ -1,7 +1,7 @@
 import React from "react";
 import {BoxRenderProps} from "./types";
-import {maybeResolveProp} from "../../../../shs-react-redux-app/src/util/generateProp";
-import {isSamePoint} from "../../../../shs-react-redux-app/src/util/geometry/rectanglePoints/enums";
+import {resolveOptionalProp} from "@lindapaiste/function-props"
+import {isSamePoint} from "@lindapaiste/geometry/lib/rectanglePoints/booleans";
 import {makeBoxStyle, makeDotStyle} from "./styles";
 
 /**
@@ -15,7 +15,7 @@ export const BoundingBox = ({rectangle, points, boxStyle, dotStyle, dotSize = 6,
                 className={"crop-box" + isActive ? " active" : " inactive"}
                 style={{
                     ...makeBoxStyle({rectangle}),
-                    ...maybeResolveProp(boxStyle, isActive)
+                    ...resolveOptionalProp(boxStyle, isActive)
                 }}
                 onClick={(e) => onPressBox(e)}
             />
@@ -25,13 +25,12 @@ export const BoundingBox = ({rectangle, points, boxStyle, dotStyle, dotSize = 6,
                     key={point.xName + point.yName}
                     style={{
                         ...makeDotStyle({point, dotSize}),
-                        ...maybeResolveProp(dotStyle, isSamePoint(point, activePoint))
+                        ...resolveOptionalProp(dotStyle, isSamePoint(point, activePoint))
                     }}
                     onClick={(e) => onPressDot(e, point)}
                 />
             ))}
         </div>
-
     )
 };
 

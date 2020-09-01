@@ -1,9 +1,8 @@
 import {CSSProperties} from "react";
 import {ViewStyle} from "react-native";
-import {I_Rectangle} from "../../../../shs-react-redux-app/src/util/geometry/rectangle/types";
-import {I_RectanglePoint} from "../../../../shs-react-redux-app/src/util/geometry/rectanglePoints/types";
+import {IRectangle, IRectanglePoint} from "@lindapaiste/geometry";
 
-export const makeBoxStyle = ({rectangle}: { rectangle: I_Rectangle }): CSSProperties & ViewStyle => ({
+export const makeBoxStyle = ({rectangle}: { rectangle: IRectangle }): CSSProperties & ViewStyle => ({
     borderWidth: 1,
     borderStyle: "dashed",
     borderColor: "gray",
@@ -16,7 +15,7 @@ export const makeBoxStyle = ({rectangle}: { rectangle: I_Rectangle }): CSSProper
     top: rectangle.y,
 });
 
-export const makeDotStyle = ({point, dotSize}: { point: I_RectanglePoint, dotSize: number }): CSSProperties & ViewStyle => ({
+export const makeDotStyle = ({point, dotSize}: { point: IRectanglePoint, dotSize: number }): CSSProperties & ViewStyle => ({
     width: dotSize,
     height: dotSize,
     position: 'absolute',

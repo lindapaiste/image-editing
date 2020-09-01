@@ -1,9 +1,8 @@
-import {I_Rectangle} from "../../../../shs-react-redux-app/src/util/geometry/rectangle/types";
 import {CSSProperties} from "react";
 import {ViewStyle} from "react-native";
-import {MaybeGenerate} from "../../../../shs-react-redux-app/src/util/generateProp";
-import {I_SizedImage} from "../../../../shs-react-redux-app/src/util/geometry/sized/SizedImage";
-import {I_RectanglePoint} from "../../../../shs-react-redux-app/src/util/geometry/rectanglePoints/types";
+import {ImageFile} from  "../../../images/src";
+import {IRectanglePoint, IRectangle} from "@lindapaiste/geometry";
+import {MaybeFunction} from "@lindapaiste/function-props";
 
 export interface Settings {
     movable: boolean;
@@ -21,7 +20,7 @@ export interface Settings {
 export interface ToolLogicProps {
     initialSettings?: Partial<Settings>;
     initialAspectRatio?: number;
-    image: I_SizedImage;
+    image: ImageFile;
 }
 
 export interface ToolLogicOwnReturns extends Settings {
@@ -35,7 +34,7 @@ export interface ToolLogicOwnReturns extends Settings {
 
     //setImageSize(size: I_Sized): void;
 
-    boundaries: I_Rectangle;
+    boundaries: IRectangle;
 }
 
 export interface ToolLogicReturns extends ControlledRectangleReturns, ToolLogicOwnReturns {
@@ -46,8 +45,8 @@ export interface ToolLogicReturns extends ControlledRectangleReturns, ToolLogicO
  * note that these props will be returned from ToolLogic once it's ready
  */
 export interface ControlledRectangleProps {
-    initialRectangle: I_Rectangle;
-    boundaries: I_Rectangle;
+    initialRectangle: IRectangle;
+    boundaries: IRectangle;
 }
 
 //minimal required event
@@ -59,21 +58,21 @@ export type BoxMouseEvent = {
 export type BasicStyle = CSSProperties & ViewStyle;
 
 export interface BoxRenderProps {
-    rectangle: I_Rectangle;
-    points: I_RectanglePoint[];
+    rectangle: IRectangle;
+    points: IRectanglePoint[];
 
     onPressBox(e: BoxMouseEvent): void;
 
-    onPressDot(e: BoxMouseEvent, point: I_RectanglePoint): void;
+    onPressDot(e: BoxMouseEvent, point: IRectanglePoint): void;
 
     /**
      * can style differently based on whether the box or a dot is active
      * component receives this info as props, and also style props can depend on it
      */
-    boxStyle?: MaybeGenerate<BasicStyle, boolean>
-    dotStyle?: MaybeGenerate<BasicStyle, boolean>
+    boxStyle?: MaybeFunction<BasicStyle, boolean>
+    dotStyle?: MaybeFunction<BasicStyle, boolean>
     dotSize?: number;
-    activePoint?: I_RectanglePoint | null;
+    activePoint?: IRectanglePoint | null;
     isActive?: boolean;
 }
 
@@ -87,19 +86,19 @@ export interface RectangleActions {
 
     scale(scale: number): void;
 
-    scaleToPoint(point: I_RectanglePoint): void;
+    scaleToPoint(point: IRectanglePoint): void;
 
     increaseScale(): void;
 
     decreaseScale(): void;
 
-    stretchToPoint(point: I_RectanglePoint): void;
+    stretchToPoint(point: IRectanglePoint): void;
 }
 
 
 export interface ControlledRectangleReturns extends RectangleActions {
 
-    rectangle: I_Rectangle;
+    rectangle: IRectangle;
 
     undo(): void;
 
@@ -113,8 +112,8 @@ export interface ControlledRectangleReturns extends RectangleActions {
 }
 
 export interface MouseControlsReturns {
-    onPress(e: BoxMouseEvent, point?: I_RectanglePoint): void;
-    activePoint: I_RectanglePoint | null; //return this because box renderer uses it to see which point is active
+    onPress(e: BoxMouseEvent, point?: IRectanglePoint): void;
+    activePoint: IRectanglePoint | null; //return this because box renderer uses it to see which point is active
 }
 
 export type CompleteRenderProps =

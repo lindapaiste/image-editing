@@ -1,10 +1,7 @@
 import {ControlledRectangleProps, ControlledRectangleReturns} from "./types";
-import {useHistory} from "../../../../shs-react-redux-app/src/util/history/useHistory";
-import {I_Rectangle} from "../../../../shs-react-redux-app/src/util/geometry/rectangle/types";
+import {useHistory} from "../../../slider/src";
 import {useEffect, useState} from "react";
-import {BoundedRectangle} from "../../../../shs-react-redux-app/src/util/geometry/rectangle/BoundedRectangle";
-import Rectangle from "../../../../shs-react-redux-app/src/util/geometry/rectangle/ImmutableRectangle";
-import {I_RectanglePoint} from "../../../../shs-react-redux-app/src/util/geometry/rectanglePoints/types";
+import {IRectanglePoint, IRectangle, BoundedRectangle, Rectangle} from "@lindapaiste/geometry";
 
 /**
  * can separate the rectangle mutations from the keyboard and mouse events that trigger them
@@ -18,7 +15,7 @@ export const useControlledRectangle = ({initialRectangle, boundaries}: Controlle
     /**
      * store the history of all the rectangles its been through
      */
-    const history = useHistory<I_Rectangle>([initialRectangle]);
+    const stages = useHistory<IRectangle>([initialRectangle]);
 
     /**
      * history shouldn't included states created while dragging
@@ -36,21 +33,21 @@ export const useControlledRectangle = ({initialRectangle, boundaries}: Controlle
      * should act ON THE RECTANGLE WHERE THE DRAG BEGAN rather than
      * on the most recent current version
      */
-    const [current, setCurrent] = useState<I_Rectangle>(initialRectangle);
+    const [current, setCurrent] = useState<IRectangle>(initialRectangle);
 
     /**
      * helper setRectangle updates either the current or the history
      * based on whether it is dragging or not
      */
-    const setRectangle = (rect: I_Rectangle): void => {
-        isDragging ? setCurrent(rect) : history.pushState(rect);
+    const setRectangle = (rect: IRectangle): void => {
+        isDragging ? setCurrent(rect) : stages.pushState(rect);
     }
 
     /**
      * classed object of the current rectangle, used to create changed versions
      */
     const bounded = new BoundedRectangle(
-        new Rectangle(history.current() || initialRectangle),
+        new Rectangle(stages.current || initialRectangle),
         new Rectangle(boundaries)
     );
 
@@ -60,9 +57,9 @@ export const useControlledRectangle = ({initialRectangle, boundaries}: Controlle
      */
     useEffect(() => {
         if (isDragging) {
-            setCurrent(history.current() || initialRectangle);
+            setCurrent(stages.current || initialRectangle);
         } else {
-            history.pushState(current);
+            stages.pushState(current);
         }
     }, [isDragging]);
 
@@ -78,10 +75,10 @@ export const useControlledRectangle = ({initialRectangle, boundaries}: Controlle
             setIsDragging(false);
         },
         undo(): void {
-            history.back();
+            stages.back();
         },
         redo(): void {
-            history.forward();
+            stages.forward();
         },
         rectangle: current, //isDragging ? current : history.current() || initialRectangle,
         shift(changeX: number, changeY: number): void {
@@ -101,10 +98,10 @@ export const useControlledRectangle = ({initialRectangle, boundaries}: Controlle
         },
         decreaseScale(): void {
         },
-        scaleToPoint(point: I_RectanglePoint): void {
+        scaleToPoint(point: IRectanglePoint): void {
             setRectangle(bounded.scaleToPoint(point));
         },
-        stretchToPoint(point: I_RectanglePoint): void {
+        stretchToPoint(point: IRectanglePoint): void {
             setRectangle(bounded.stretchToPoint(point));
         }
     }
